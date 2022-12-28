@@ -119,7 +119,7 @@ Queue<T> filter(const Queue<T>& queue, F fonction){
     Queue<T> tmpQueue = queue;
     for(int i = 0; i < queue.size(); i++){
         if(fonction(tmpQueue.front())){
-            newQueue.pushback(tmpQueue.front());
+            newQueue.pushBack(tmpQueue.front());
         }
         tmpQueue.popFront();
     }
@@ -132,7 +132,7 @@ Queue<T> transform(const Queue<T>& queue, F fonction){
         T actualElement = queue.front();
         fonction (&actualElement);
         queue.popFront();
-        queue.pushback(actualElement);
+        queue.pushBack(actualElement);
     }
 }
 
