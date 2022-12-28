@@ -34,7 +34,7 @@ public:
             m_firstIndex(INITIAL_INDEX),
             m_nextIndex(queue.size())
     {
-        for(int i = queue.m_firstIndex; i<queue.m_nextIndex; i++){
+        for(int i = queue.m_firstIndex; i<queue.m_nextIndex; ++i){
             m_data[i - queue.m_firstIndex] = queue.m_data[i];
         }
     }
@@ -47,7 +47,7 @@ public:
         m_nextIndex = queue.size();
         T* newData = new T[m_maxSize];
         T* dataToDelete = m_data;
-        for(int i = queue.m_firstIndex; i < queue.m_nextIndex; i++){
+        for(int i = queue.m_firstIndex; i < queue.m_nextIndex; ++i){
             newData[i - queue.m_firstIndex] = queue.m_data[i];
         }
         m_data = newData;
@@ -57,14 +57,14 @@ public:
     void expandTheQueue(){
         if (this->size() < m_maxSize - (DEFAULT_SIZE/2)){
             if (m_firstIndex > INITIAL_INDEX){
-                for(int i = m_firstIndex; i<m_nextIndex; i++){
+                for(int i = m_firstIndex; i<m_nextIndex; ++i){
                     this->m_data[i - m_firstIndex] = this->m_data[i];
                 }
             }
         }
         else{
             T* newData = new T [m_maxSize + DEFAULT_SIZE];
-            for(int i = m_firstIndex; i<m_nextIndex; i++){
+            for(int i = m_firstIndex; i<m_nextIndex; ++i){
                 newData[i - m_firstIndex] = this->m_data[i];
             }
             T* dataToDelete = m_data;
@@ -76,7 +76,7 @@ public:
     }
     void shrinkTheQueue(){
        T* newData = new T [m_maxSize - DEFAULT_SIZE];
-       for(int i = m_firstIndex; i<m_nextIndex; i++){
+       for(int i = m_firstIndex; i<m_nextIndex; ++i){
                 newData[i - m_firstIndex] = m_data[i];
             }
         T* dataToDelete = m_data;
@@ -124,7 +124,7 @@ template <class T , class F>
 Queue<T> filter(const Queue<T>& queue, F fonction){
     Queue<T> newQueue;
     Queue<T> tmpQueue = queue;
-    for(int i = 0; i < queue.size(); i++){
+    for(int i = 0; i < queue.size(); ++i){
         if(fonction(tmpQueue.front())){
             newQueue.pushBack(tmpQueue.front());
         }
@@ -135,7 +135,7 @@ Queue<T> filter(const Queue<T>& queue, F fonction){
 
 template <class T , class F>
 void transform(Queue<T>& queue, F fonction){
-    for(int i = 0; i < queue.size(); i++){
+    for(int i = 0; i < queue.size(); ++i){
         T actualElement = queue.front();
         fonction (actualElement);
         queue.popFront();
