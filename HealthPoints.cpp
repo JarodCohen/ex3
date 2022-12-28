@@ -43,10 +43,6 @@ HealthPoints operator-(const int sub, const HealthPoints& hp){
     return result-=sub;
 }
 
-HealthPoints& HealthPoints::operator=(const int val){
-    return HealthPoints(val);
-}
-
 std::ostream& operator<<(std::ostream& os, const HealthPoints& hp){
     os<<hp.m_currentHP <<"(" << hp.m_maxHP<<")";
     return os;
