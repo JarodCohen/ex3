@@ -23,7 +23,7 @@ public:
     ConstIterator end() const{
         return ConstIterator(this, size());
     }
-
+    class EmptyQueue{};
     Queue():m_maxSize(DEFAULT_SIZE),
             m_data(new T [DEFAULT_SIZE]),
             m_firstIndex(INITIAL_INDEX),
@@ -87,15 +87,22 @@ public:
     } 
     
     void pushBack(const T& toPush){
+        
         if(m_nextIndex == m_maxSize){
             expandTheQueue();
         }
         m_data[m_nextIndex++] = toPush;
     }
     T& front() const{
+        if (m_firstIndex==m_nextIndex){
+            throw EmptyQueue();
+        }
         return m_data[m_firstIndex];
     }
     void popFront(){
+        if (m_firstIndex==m_nextIndex){
+            throw EmptyQueue();
+        }
         m_firstIndex++;
         if (this->size() < m_maxSize - DEFAULT_SIZE){
             shrinkTheQueue();
@@ -145,16 +152,23 @@ class Queue<T>::Iterator{
     {}
     friend class Queue<T>;
 public:
-    const T& operator*() const{
+    class InvalidOperation {} ;
+    T& operator*() const{
         return m_queue->m_data[m_index + m_queue->m_firstIndex];
     }
 
     Iterator& operator++(){
+        if (m_index == m_queue->size()-1){
+            throw InvalidOperation();
+        }
         ++m_index;
         return *this;
     }
 
     Iterator& operator++(int){
+        if (m_index == m_queue->size()-1){
+            throw InvalidOperation();
+        }
         Iterator result = *this;
         ++(*this);
         return result;
@@ -174,20 +188,27 @@ class Queue<T>::ConstIterator{
     const Queue<T> *m_queue;
     int m_index;
     ConstIterator(const Queue<T> *queue, int index ):m_queue(queue),
-                                                m_index(index)
+                                                     m_index(index)
     {}
     friend class Queue<T>;
 public:
+    class InvalidOperation{};
     const T& operator*() const{
         return m_queue->m_data[m_index + m_queue->m_firstIndex];
     }
 
-    Iterator& operator++(){
+    ConstIterator& operator++(){
+        if (m_index == m_queue->size()-1){
+            throw InvalidOperation();
+        }
         ++m_index;
         return *this;
     }
 
-    Iterator& operator++(int){
+    ConstIterator& operator++(int){
+        if (m_index == m_queue->size()-1){
+            throw InvalidOperation();
+        }
         Iterator result = *this;
         ++(*this);
         return result;
