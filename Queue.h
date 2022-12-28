@@ -11,10 +11,10 @@ class Queue{
 public:
     class Iterator;
     class ConstIterator;
-    Iterator begin() const{
+    Iterator begin() {
         return Iterator(this, 0);
     }
-    Iterator end() const{
+    Iterator end() {
         return Iterator(this, size());
     }
     ConstIterator begin() const{
