@@ -34,7 +34,7 @@ public:
             m_firstIndex(INITIAL_INDEX),
             m_nextIndex(queue.size())
     {
-        for(int i = queue.m_firstIndex; i<queue.m_nextIndex; ++i){
+        for(int i = queue.m_firstIndex; i<queue.m_nextIndex; i++){
             m_data[i - queue.m_firstIndex] = queue.m_data[i];
         }
     }
@@ -47,7 +47,7 @@ public:
         m_nextIndex = queue.size();
         T* newData = new T[m_maxSize];
         T* dataToDelete = m_data;
-        for(int i = queue.m_firstIndex; i < queue.m_nextIndex; ++i){
+        for(int i = queue.m_firstIndex; i < queue.m_nextIndex; i++){
             newData[i - queue.m_firstIndex] = queue.m_data[i];
         }
         m_data = newData;
@@ -57,14 +57,14 @@ public:
     void expandTheQueue(){
         if (this->size() < m_maxSize - (DEFAULT_SIZE/2)){
             if (m_firstIndex > INITIAL_INDEX){
-                for(int i = m_firstIndex; i<m_nextIndex; ++i){
+                for(int i = m_firstIndex; i<m_nextIndex; i++){
                     this->m_data[i - m_firstIndex] = this->m_data[i];
                 }
             }
         }
         else{
             T* newData = new T [m_maxSize + DEFAULT_SIZE];
-            for(int i = m_firstIndex; i<m_nextIndex; ++i){
+            for(int i = m_firstIndex; i<m_nextIndex; i++){
                 newData[i - m_firstIndex] = this->m_data[i];
             }
             T* dataToDelete = m_data;
@@ -76,7 +76,7 @@ public:
     }
     void shrinkTheQueue(){
        T* newData = new T [m_maxSize - DEFAULT_SIZE];
-       for(int i = m_firstIndex; i<m_nextIndex; ++i){
+       for(int i = m_firstIndex; i<m_nextIndex; i++){
                 newData[i - m_firstIndex] = m_data[i];
             }
         T* dataToDelete = m_data;
@@ -120,108 +120,108 @@ private:
     int m_nextIndex;
 };
 
-template <class T , class F>
-Queue<T> filter(const Queue<T>& queue, F fonction){
-    Queue<T> newQueue;
-    Queue<T> tmpQueue = queue;
-    for(int i = 0; i < queue.size(); ++i){
-        if(fonction(tmpQueue.front())){
-            newQueue.pushBack(tmpQueue.front());
-        }
-        tmpQueue.popFront();
-    }
-    return newQueue;
-}
+// template <class T , class F>
+// Queue<T> filter(const Queue<T>& queue, F fonction){
+//     Queue<T> newQueue;
+//     Queue<T> tmpQueue = queue;
+//     for(int i = 0; i < queue.size(); i++){
+//         if(fonction(tmpQueue.front())){
+//             newQueue.pushBack(tmpQueue.front());
+//         }
+//         tmpQueue.popFront();
+//     }
+//     return newQueue;
+// }
 
-template <class T , class F>
-void transform(Queue<T>& queue, F fonction){
-    for(int i = 0; i < queue.size(); ++i){
-        T actualElement = queue.front();
-        fonction (actualElement);
-        queue.popFront();
-        queue.pushBack(actualElement);
-    }
-}
+// template <class T , class F>
+// void transform(Queue<T>& queue, F fonction){
+//     for(int i = 0; i < queue.size(); i++){
+//         T actualElement = queue.front();
+//         fonction (actualElement);
+//         queue.popFront();
+//         queue.pushBack(actualElement);
+//     }
+// }
 
-template <class T>
-class Queue<T>::Iterator{
-    const Queue<T> *m_queue;
-    int m_index;
-    Iterator(const Queue<T> *queue, int index ):m_queue(queue),
-                                                m_index(index)
-    {}
-    friend class Queue<T>;
-public:
-    class InvalidOperation {} ;
-    T& operator*() const{
-        return m_queue->m_data[m_index + m_queue->m_firstIndex];
-    }
+// template <class T>
+// class Queue<T>::Iterator{
+//     const Queue<T> *m_queue;
+//     int m_index;
+//     Iterator(const Queue<T> *queue, int index ):m_queue(queue),
+//                                                 m_index(index)
+//     {}
+//     friend class Queue<T>;
+// public:
+//     class InvalidOperation {} ;
+//     T& operator*() const{
+//         return m_queue->m_data[m_index + m_queue->m_firstIndex];
+//     }
 
-    Iterator& operator++(){
-        if (m_index == m_queue->size()-1){
-            throw InvalidOperation();
-        }
-        ++m_index;
-        return *this;
-    }
+//     Iterator& operator++(){
+//         if (m_index == m_queue->size()-1){
+//             throw InvalidOperation();
+//         }
+//         ++m_index;
+//         return *this;
+//     }
 
-    Iterator& operator++(int){
-        if (m_index == m_queue->size()-1){
-            throw InvalidOperation();
-        }
-        Iterator result = *this;
-        ++(*this);
-        return result;
-   }
+//     Iterator& operator++(int){
+//         if (m_index == m_queue->size()-1){
+//             throw InvalidOperation();
+//         }
+//         Iterator result = *this;
+//         ++(*this);
+//         return result;
+//    }
 
-    bool operator==(const Iterator& i) const {
-        return m_index == i.m_index;
-    }
+//     bool operator==(const Iterator& i) const {
+//         return m_index == i.m_index;
+//     }
 
-    bool operator!=(const Iterator& i) const {
-        return !(*this == i);
-    }
-};
+//     bool operator!=(const Iterator& i) const {
+//         return !(*this == i);
+//     }
+// };
 
-template <class T>
-class Queue<T>::ConstIterator{
-    const Queue<T> *m_queue;
-    int m_index;
-    ConstIterator(const Queue<T> *queue, int index ):m_queue(queue),
-                                                     m_index(index)
-    {}
-    friend class Queue<T>;
-public:
-    class InvalidOperation{};
-    const T& operator*() const{
-        return m_queue->m_data[m_index + m_queue->m_firstIndex];
-    }
+// template <class T>
+// class Queue<T>::ConstIterator{
+//     const Queue<T> *m_queue;
+//     int m_index;
+//     ConstIterator(const Queue<T> *queue, int index ):m_queue(queue),
+//                                                      m_index(index)
+//     {}
+//     friend class Queue<T>;
+// public:
+//     class InvalidOperation{};
+//     const T& operator*() const{
+//         return m_queue->m_data[m_index + m_queue->m_firstIndex];
+//     }
 
-    ConstIterator& operator++(){
-        if (m_index == m_queue->size()-1){
-            throw InvalidOperation();
-        }
-        ++m_index;
-        return *this;
-    }
+//     ConstIterator& operator++(){
+//         if (m_index == m_queue->size()-1){
+//             throw InvalidOperation();
+//         }
+//         ++m_index;
+//         return *this;
+//     }
 
-    ConstIterator& operator++(int){
-        if (m_index == m_queue->size()-1){
-            throw InvalidOperation();
-        }
-        Iterator result = *this;
-        ++(*this);
-        return result;
-   }
+//     ConstIterator& operator++(int){
+//         if (m_index == m_queue->size()-1){
+//             throw InvalidOperation();
+//         }
+//         Iterator result = *this;
+//         ++(*this);
+//         return result;
+//    }
 
-    bool operator==(const ConstIterator& i) const {
-        return m_index == i.m_index;
-    }
+//     bool operator==(const ConstIterator& i) const {
+//         return m_index == i.m_index;
+//     }
 
-    bool operator!=(const ConstIterator& i) const {
-        return !(*this == i);
-    }
-};
+//     bool operator!=(const ConstIterator& i) const {
+//         return !(*this == i);
+//     }
+// };
 
 
 #endif //EX3_QUEUE_H
