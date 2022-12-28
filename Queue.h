@@ -11,6 +11,14 @@ class Queue{
 public:
     class Iterator;
     class ConstIterator;
+    Iterator begin() const{
+        return Iterator(this, 0);
+    }
+    Iterator end() const{
+        return Iterator(this, size());
+
+    }
+
     Queue():m_maxSize(DEFAULT_SIZE),
             m_data(new T [DEFAULT_SIZE]),
             m_firstIndex(INITIAL_INDEX),
@@ -88,7 +96,7 @@ public:
             shrinkTheQueue();
         }
     }
-    int size(){
+    int size() const{
         return m_nextIndex - m_firstIndex;
     }
 
@@ -133,7 +141,7 @@ class Queue<T>::Iterator{
     friend class Queue<T>;
 public:
     const T& operator*() const{
-        return m_queue -> m_data[m_index];
+        return m_queue->m_data[m_index + m_queue->m_firstIndex];
     }
 
     Iterator& operator++(){
@@ -166,7 +174,7 @@ class Queue<T>::ConstIterator{
     friend class Queue<T>;
 public:
     const T& operator*() const{
-        return m_queue -> m_data[m_index];
+        return m_queue->m_data[m_index + m_queue->m_firstIndex];
     }
 
     Iterator& operator++(){
