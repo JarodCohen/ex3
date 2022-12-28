@@ -16,7 +16,12 @@ public:
     }
     Iterator end() const{
         return Iterator(this, size());
-
+    }
+    ConstIterator begin() const{
+        return ConstIterator(this, 0);
+    }
+    ConstIterator end() const{
+        return ConstIterator(this, size());
     }
 
     Queue():m_maxSize(DEFAULT_SIZE),
@@ -87,7 +92,7 @@ public:
         }
         m_data[m_nextIndex++] = toPush;
     }
-    T front(){
+    T& front() const{
         return m_data[m_firstIndex];
     }
     void popFront(){
