@@ -91,7 +91,8 @@ public:
         if(m_nextIndex == m_maxSize){
             expandTheQueue();
         }
-        m_data[m_nextIndex++] = toPush;
+        m_data[m_nextIndex] = toPush;
+        m_nextIndex++;
     }
     T& front() const{
         if (m_firstIndex==m_nextIndex){
