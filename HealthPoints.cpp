@@ -44,8 +44,7 @@ HealthPoints operator-(const int sub, const HealthPoints& hp){
 }
 
 HealthPoints& HealthPoints::operator=(const int val){
-    *this = HealthPoints(val);
-    return *this;
+    return HealthPoints(val);
 }
 
 std::ostream& operator<<(std::ostream& os, const HealthPoints& hp){
