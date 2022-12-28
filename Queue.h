@@ -45,7 +45,7 @@ public:
         if (this->size() < m_maxSize - (DEFAULT_SIZE/2)){
             if (m_firstIndex > INITIAL_INDEX){
                 for(int i = m_firstIndex; i<m_nextIndex; i++){
-                    newData[i - m_firstIndex] = queue.m_data[i];
+                    queue.m_data[i - m_firstIndex] = queue.m_data[i];
                 }
             }
         }
