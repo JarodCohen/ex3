@@ -1,4 +1,4 @@
-#include "Healthpoints.h"
+#include "HealthPoints.h"
 
 
 HealthPoints::HealthPoints(int maxHP):m_maxHP(maxHP),
