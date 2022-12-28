@@ -45,14 +45,14 @@ public:
         if (this->size() < m_maxSize - (DEFAULT_SIZE/2)){
             if (m_firstIndex > INITIAL_INDEX){
                 for(int i = m_firstIndex; i<m_nextIndex; i++){
-                    queue.m_data[i - m_firstIndex] = queue.m_data[i];
+                    this->m_data[i - m_firstIndex] = this->m_data[i];
                 }
             }
         }
         else{
             T* newData = new T [m_maxSize + DEFAULT_SIZE];
             for(int i = m_firstIndex; i<m_nextIndex; i++){
-                newData[i - m_firstIndex] = queue.m_data[i];
+                newData[i - m_firstIndex] = this->m_data[i];
             }
             T* dataToDelete = m_data;
             m_data = newData;
@@ -64,7 +64,7 @@ public:
     void shrinkTheQueue(){
        T* newData = new T [m_maxSize - DEFAULT_SIZE];
        for(int i = m_firstIndex; i<m_nextIndex; i++){
-                newData[i - m_firstIndex] = queue.m_data[i];
+                newData[i - m_firstIndex] = m_data[i];
             }
         T* dataToDelete = m_data;
         m_data = newData;
@@ -73,9 +73,9 @@ public:
         m_firstIndex = INITIAL_INDEX;
     } 
     
-    void pushback(const T& toPush){
+    void pushBack(const T& toPush){
         if(m_nextIndex == m_maxSize){
-            expandTheQueue()
+            expandTheQueue();
         }
         m_data[m_nextIndex++] = toPush;
     }
