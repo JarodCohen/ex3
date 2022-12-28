@@ -158,7 +158,7 @@ public:
     }
 
     Iterator& operator++(){
-        if (m_index == m_queue->size()){
+        if (m_index == m_queue->size()-1){
             throw InvalidOperation();
         }
         ++m_index;
@@ -166,7 +166,7 @@ public:
     }
 
     Iterator& operator++(int){
-        if (m_index == m_queue->size()){
+        if (m_index == m_queue->size()-1){
             throw InvalidOperation();
         }
         Iterator result = *this;
@@ -198,7 +198,7 @@ public:
     }
 
     ConstIterator& operator++(){
-        if (m_index == m_queue->size()){
+        if (m_index == m_queue->size()-1){
             throw InvalidOperation();
         }
         ++m_index;
@@ -206,7 +206,7 @@ public:
     }
 
     ConstIterator& operator++(int){
-        if (m_index == m_queue->size()){
+        if (m_index == m_queue->size()-1){
             throw InvalidOperation();
         }
         Iterator result = *this;
