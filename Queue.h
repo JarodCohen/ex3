@@ -137,7 +137,7 @@ template <class T , class F>
 void transform(Queue<T>& queue, F fonction){
     for(int i = 0; i < queue.size(); i++){
         T actualElement = queue.front();
-        fonction (&actualElement);
+        fonction (actualElement);
         queue.popFront();
         queue.pushBack(actualElement);
     }
