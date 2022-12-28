@@ -66,7 +66,6 @@ HealthPoints& operator=(const int val);
 */
 HealthPoints operator-(const int sub);
 
-std::ostream& operator<<(std::ostream& os, const HealthPoints& hp);
 class InvalidArgument{};
 
 
@@ -76,6 +75,7 @@ int m_maxHP;
 int m_currentHP;
 friend bool operator==(const HealthPoints&, const HealthPoints&);
 friend bool operator>=(const HealthPoints&, const HealthPoints&);
+friend std::ostream& operator<<(std::ostream& os, const HealthPoints& hp);
 };
 
 HealthPoints operator+(const int add, const HealthPoints& hp);
@@ -88,4 +88,5 @@ bool operator>=(const HealthPoints&, const HealthPoints&);
 bool operator>(const HealthPoints&, const HealthPoints&);
 bool operator<=(const HealthPoints&, const HealthPoints&);
 bool operator<(const HealthPoints&, const HealthPoints&);
+std::ostream& operator<<(std::ostream& os, const HealthPoints& hp);
 #endif
