@@ -43,15 +43,14 @@ public:
             return *this;
         }
         m_maxSize = queue.m_maxSize;
+        T* newData = new T[m_maxSize];
+        delete[] m_data;
+        m_data = newData;
+        for(int i = queue.m_firstIndex; i < queue.m_nextIndex; i++){
+            m_Data[i - queue.m_firstIndex] = queue.m_data[i];
+        }
         m_firstIndex = INITIAL_INDEX;
         m_nextIndex = queue.size();
-        T* newData = new T[m_maxSize];
-        T* dataToDelete = m_data;
-        for(int i = queue.m_firstIndex; i < queue.m_nextIndex; i++){
-            newData[i - queue.m_firstIndex] = queue.m_data[i];
-        }
-        m_data = newData;
-        delete[] dataToDelete;
         return *this;
     }
     void expandTheQueue(){
