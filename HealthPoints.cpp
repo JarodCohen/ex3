@@ -37,15 +37,20 @@ HealthPoints HealthPoints:: operator-(const int sub){
 HealthPoints operator+(const int add, const HealthPoints& hp){
     HealthPoints result = hp;
     return result+=add;
-};
+}
 HealthPoints operator-(const int sub, const HealthPoints& hp){
     HealthPoints result = hp;
     return result-=sub;
-};
+}
 
 HealthPoints& HealthPoints::operator=(const int val){
     *this = HealthPoints(val);
     return *this;
+}
+
+std::ostream& operator<<(std::ostream& os, const HealthPoints& hp){
+    os<<hp.m_currentHP <<"(" << hp.m_maxHP<<")";
+    return os;
 }
 
 bool operator==(const HealthPoints& hp1, const HealthPoints& hp2){

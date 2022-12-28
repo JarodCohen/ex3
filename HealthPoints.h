@@ -16,7 +16,7 @@ public:
      *      a new instance of HealthPoints with maxHealthpoins of 100(default) or maxHP which was entered as argument and currentHP with the same value as MaxHealthpoints
      * 
 */
-explicit HealthPoints(int maxHP=100);
+explicit HealthPoints(int maxHP = DEFAULT_STARTING_HP);
 
 /*
      * operator+= of HealthPoints class with an int
@@ -66,6 +66,7 @@ HealthPoints& operator=(const int val);
 */
 HealthPoints operator-(const int sub);
 
+std::ostream& operator<<(std::ostream& os, const HealthPoints& hp);
 class InvalidArgument{};
 
 
