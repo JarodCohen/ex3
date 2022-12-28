@@ -198,7 +198,7 @@ public:
     }
 
     ConstIterator& operator++(){
-        if (m_index == m_queue->size()-1){
+        if (m_index == m_queue->size()){
             throw InvalidOperation();
         }
         ++m_index;
@@ -206,7 +206,7 @@ public:
     }
 
     ConstIterator& operator++(int){
-        if (m_index == m_queue->size()-1){
+        if (m_index == m_queue->size()){
             throw InvalidOperation();
         }
         Iterator result = *this;
