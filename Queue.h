@@ -47,7 +47,7 @@ public:
         delete[] m_data;
         m_data = newData;
         for(int i = queue.m_firstIndex; i < queue.m_nextIndex; i++){
-            m_Data[i - queue.m_firstIndex] = queue.m_data[i];
+            m_data[i - queue.m_firstIndex] = queue.m_data[i];
         }
         m_firstIndex = INITIAL_INDEX;
         m_nextIndex = queue.size();
