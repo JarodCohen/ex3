@@ -134,7 +134,7 @@ Queue<T> filter(const Queue<T>& queue, F fonction){
 }
 
 template <class T , class F>
-Queue<T> transform(const Queue<T>& queue, F fonction){
+void transform(Queue<T>& queue, F fonction){
     for(int i = 0; i < queue.size(); i++){
         T actualElement = queue.front();
         fonction (&actualElement);
