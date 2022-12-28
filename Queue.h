@@ -69,6 +69,7 @@ public:
             T* dataToDelete = m_data;
             m_data = newData;
             delete dataToDelete;
+            m_maxSize += DEFAULT_SIZE;
         }
         m_nextIndex = this->size();
         m_firstIndex = INITIAL_INDEX;
