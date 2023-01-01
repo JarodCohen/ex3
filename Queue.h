@@ -24,11 +24,15 @@ public:
         return ConstIterator(this, size());
     }
     class EmptyQueue{};
+
+    //C'tor of Queue
     Queue():m_maxSize(DEFAULT_SIZE),
             m_data(new T [DEFAULT_SIZE]),
             m_firstIndex(INITIAL_INDEX),
             m_nextIndex(INITIAL_INDEX)
-    {}   
+    {}
+
+    //Copy C'tor of Queue 
     Queue(const Queue& queue): m_maxSize(queue.m_maxSize),
             m_data(new T [queue.m_maxSize]),
             m_firstIndex(INITIAL_INDEX),
@@ -38,6 +42,8 @@ public:
             m_data[i - queue.m_firstIndex] = queue.m_data[i];
         }
     }
+
+    //D'tor of Queue
     ~Queue(){
         delete[] m_data;
     }
@@ -56,6 +62,10 @@ public:
         m_nextIndex = queue.size();
         return *this;
     }
+
+    /* if the nextIndex is out the array, update the array or create a new one
+       according to the requirement
+    */
     void expandTheQueue(){
         if (this->size() < m_maxSize - (DEFAULT_SIZE/2)){
             if (m_firstIndex > INITIAL_INDEX){
@@ -77,6 +87,8 @@ public:
         m_nextIndex = this->size();
         m_firstIndex = INITIAL_INDEX;
     }
+
+    // copy the data into a smaller array
     void shrinkTheQueue(){
        T* newData = new T [m_maxSize - DEFAULT_SIZE];
        for(int i = m_firstIndex; i<m_nextIndex; i++){
@@ -89,6 +101,7 @@ public:
         m_firstIndex = INITIAL_INDEX;
     } 
     
+    //insert a new element into the data
     void pushBack(const T& toPush){
         
         if(m_nextIndex == m_maxSize){
@@ -97,12 +110,16 @@ public:
         m_data[m_nextIndex] = toPush;
         m_nextIndex++;
     }
+
+    //return the first element of the data
     T& front() const{
         if (m_firstIndex==m_nextIndex){
             throw EmptyQueue();
         }
         return m_data[m_firstIndex];
     }
+
+    //remove the first element of the data
     void popFront(){
         if (m_firstIndex==m_nextIndex){
             throw EmptyQueue();
@@ -112,6 +129,8 @@ public:
             shrinkTheQueue();
         }
     }
+
+    //return the actual size of the data
     int size() const{
         return m_nextIndex - m_firstIndex;
     }
@@ -124,6 +143,7 @@ private:
     int m_nextIndex;
 };
 
+//create a new queue that include the filtered elements of the actual queue
 template <class T , class F>
 Queue<T> filter(const Queue<T>& queue, F fonction){
     Queue<T> newQueue;
@@ -137,6 +157,7 @@ Queue<T> filter(const Queue<T>& queue, F fonction){
     return newQueue;
 }
 
+//create a new queue with all the  elements of the actual queue after transformation
 template <class T , class F>
 void transform(Queue<T>& queue, F fonction){
     for(int i = 0; i < queue.size(); i++){
