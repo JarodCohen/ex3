@@ -38,6 +38,9 @@ public:
             m_data[i - queue.m_firstIndex] = queue.m_data[i];
         }
     }
+    ~Queue(){
+        delete[] m_data;
+    }
     Queue<T>& operator=(const Queue<T>& queue){
         if(this == &queue){
             return *this;
