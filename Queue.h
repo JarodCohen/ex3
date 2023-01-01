@@ -68,7 +68,7 @@ public:
             }
             T* dataToDelete = m_data;
             m_data = newData;
-            delete dataToDelete;
+            delete [] dataToDelete;
             m_maxSize += DEFAULT_SIZE;
         }
         m_nextIndex = this->size();
@@ -81,7 +81,7 @@ public:
             }
         T* dataToDelete = m_data;
         m_data = newData;
-        delete dataToDelete;
+        delete [] dataToDelete;
         m_nextIndex = this->size();
         m_firstIndex = INITIAL_INDEX;
     } 
