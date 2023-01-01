@@ -23,7 +23,7 @@ public:
     ConstIterator end() const{
         return ConstIterator(this, size());
     }
-
+    class EmptyQueue{};
     Queue():m_maxSize(DEFAULT_SIZE),
             m_data(new T [DEFAULT_SIZE]),
             m_firstIndex(INITIAL_INDEX),
@@ -43,15 +43,14 @@ public:
             return *this;
         }
         m_maxSize = queue.m_maxSize;
+        T* newData = new T[m_maxSize];
+        delete[] m_data;
+        m_data = newData;
+        for(int i = queue.m_firstIndex; i < queue.m_nextIndex; i++){
+            m_data[i - queue.m_firstIndex] = queue.m_data[i];
+        }
         m_firstIndex = INITIAL_INDEX;
         m_nextIndex = queue.size();
-        T* newData = new T[m_maxSize];
-        T* dataToDelete = m_data;
-        for(int i = queue.m_firstIndex; i < queue.m_nextIndex; i++){
-            newData[i - queue.m_firstIndex] = queue.m_data[i];
-        }
-        m_data = newData;
-        delete[] dataToDelete;
         return *this;
     }
     void expandTheQueue(){
@@ -70,6 +69,7 @@ public:
             T* dataToDelete = m_data;
             m_data = newData;
             delete dataToDelete;
+            m_maxSize += DEFAULT_SIZE;
         }
         m_nextIndex = this->size();
         m_firstIndex = INITIAL_INDEX;
@@ -87,15 +87,23 @@ public:
     } 
     
     void pushBack(const T& toPush){
+        
         if(m_nextIndex == m_maxSize){
             expandTheQueue();
         }
-        m_data[m_nextIndex++] = toPush;
+        m_data[m_nextIndex] = toPush;
+        m_nextIndex++;
     }
     T& front() const{
+        if (m_firstIndex==m_nextIndex){
+            throw EmptyQueue();
+        }
         return m_data[m_firstIndex];
     }
     void popFront(){
+        if (m_firstIndex==m_nextIndex){
+            throw EmptyQueue();
+        }
         m_firstIndex++;
         if (this->size() < m_maxSize - DEFAULT_SIZE){
             shrinkTheQueue();
@@ -127,10 +135,10 @@ Queue<T> filter(const Queue<T>& queue, F fonction){
 }
 
 template <class T , class F>
-Queue<T> transform(const Queue<T>& queue, F fonction){
+void transform(Queue<T>& queue, F fonction){
     for(int i = 0; i < queue.size(); i++){
         T actualElement = queue.front();
-        fonction (&actualElement);
+        fonction (actualElement);
         queue.popFront();
         queue.pushBack(actualElement);
     }
@@ -145,16 +153,23 @@ class Queue<T>::Iterator{
     {}
     friend class Queue<T>;
 public:
-    const T& operator*() const{
+    class InvalidOperation {} ;
+    T& operator*() const{
         return m_queue->m_data[m_index + m_queue->m_firstIndex];
     }
 
     Iterator& operator++(){
+        if (m_index == m_queue->size()){
+            throw InvalidOperation();
+        }
         ++m_index;
         return *this;
     }
 
     Iterator& operator++(int){
+        if (m_index == m_queue->size()){
+            throw InvalidOperation();
+        }
         Iterator result = *this;
         ++(*this);
         return result;
@@ -174,20 +189,27 @@ class Queue<T>::ConstIterator{
     const Queue<T> *m_queue;
     int m_index;
     ConstIterator(const Queue<T> *queue, int index ):m_queue(queue),
-                                                m_index(index)
+                                                     m_index(index)
     {}
     friend class Queue<T>;
 public:
+    class InvalidOperation{};
     const T& operator*() const{
         return m_queue->m_data[m_index + m_queue->m_firstIndex];
     }
 
-    Iterator& operator++(){
+    ConstIterator& operator++(){
+        if (m_index == m_queue->size()){
+            throw InvalidOperation();
+        }
         ++m_index;
         return *this;
     }
 
-    Iterator& operator++(int){
+    ConstIterator& operator++(int){
+        if (m_index == m_queue->size()){
+            throw InvalidOperation();
+        }
         Iterator result = *this;
         ++(*this);
         return result;
