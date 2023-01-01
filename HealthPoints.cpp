@@ -27,11 +27,13 @@ HealthPoints& HealthPoints:: operator-=(const int sub){
 }
 
 HealthPoints HealthPoints:: operator+(const int add){
-    return *this+=add;
+    HealthPoints result = *this;
+    return result+=add;
 }
 
 HealthPoints HealthPoints:: operator-(const int sub){
-    return *this-=sub;
+    HealthPoints result = *this;
+    return result-=sub;
 }
 
 HealthPoints operator+(const int add, const HealthPoints& hp){
